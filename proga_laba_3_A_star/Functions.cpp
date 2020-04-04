@@ -39,9 +39,9 @@ void read_field_from_file(const char* file_name, int*** arr, int* arrRows, int* 
 		for (int j = 0; j < cols; j++)
 		{
 			if (str[j] == 'X')
-				(*arr)[i][j] = 1;
-			else
 				(*arr)[i][j] = 0;
+			else
+				(*arr)[i][j] = 1;
 		}
 	}
 	file.close();
@@ -73,6 +73,19 @@ void Astar::setArr(int** arr0)
 {
 	for (int i = 0; i < Rows; i++)
 		for (int j = 0; j < Cols; j++)
-			arr[i][j] = arr0[i][j];
+		 arr[i][j] = arr0[i][j]; 
+}
+
+void Astar:: outputMaze()
+{
+	for (int i = 0; i < Rows; i++)
+	{
+		for (int j = 0; j < Cols; j++)
+		{
+			if (arr[i][j]) cout << ' ';
+			else cout << 'X'; cout << ' ';
+		}cout << endl;
+	} cout << endl;
+
 }
 

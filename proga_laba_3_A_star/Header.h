@@ -20,5 +20,6 @@ class Astar
 public:
 	Astar(int, int);
 	void setArr(int**);
+	void outputMaze();
 
 };
