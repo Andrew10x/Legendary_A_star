@@ -76,6 +76,7 @@ void Astar::setArr(int** arr0)
 		 arr[i][j] = arr0[i][j]; 
 }
 
+
 void Astar:: outputMaze()
 {
 	for (int i = 0; i < Rows; i++)

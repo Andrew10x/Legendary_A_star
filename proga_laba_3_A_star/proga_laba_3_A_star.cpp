@@ -9,5 +9,14 @@ int main()
 	Astar way(rows, cols); 
 	way.setArr(field);
 	way.outputMaze();
+
+	int x, y;
+	cout << "Input start point: " <<endl;
+	cin >> x; cin >> y;
+	way.setStart(x, y);
+	cout << "Input finish point: " << endl;
+	cin >> x; cin >> y;
+	way.setFinish(x, y);
+
 }
 

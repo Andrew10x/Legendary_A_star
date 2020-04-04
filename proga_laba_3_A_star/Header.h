@@ -17,9 +17,21 @@ class Astar
 	int Cols;  // колличество колонок
 	int** arr; // лабиринт типа инт
 	cell** maze_details;
+	pair<int, int> start;
+	pair<int, int> finish;
 public:
 	Astar(int, int);
 	void setArr(int**);
+	void setStart(int x, int y)
+	{
+		start.first = x; start.second = y;
+	}
+
+	void setFinish(int x, int y)
+	{
+		finish.first = x; finish.second = y;
+	}
+
 	void outputMaze();
 
 };
