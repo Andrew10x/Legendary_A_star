@@ -33,5 +33,8 @@ public:
 	}
 
 	void outputMaze();
+	bool inMaze(int, int);
+	bool isPath(int, int);
+	bool isFinish(int, int);
 
 };

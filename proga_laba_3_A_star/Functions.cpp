@@ -69,6 +69,7 @@ Astar::Astar(int rows, int cols)
 	}
 }
 
+
 void Astar::setArr(int** arr0)
 {
 	for (int i = 0; i < Rows; i++)
@@ -85,8 +86,29 @@ void Astar:: outputMaze()
 		{
 			if (arr[i][j]) cout << ' ';
 			else cout << 'X'; cout << ' ';
-		}cout << endl;
+		} cout << endl;
 	} cout << endl;
+}
 
+bool Astar:: inMaze(int row, int col)
+{
+	if (row >= 0 && row < Rows && col >= 0 && col < Cols)
+		return true;
+	else 
+		return false;
+}
+
+bool Astar::isPath(int row, int col)
+{
+	if (arr[row][col] == 1) return true;
+	else 
+		return false;
+}
+
+bool Astar::isFinish(int row, int col)
+{
+	if (row == finish.first && col == finish.second)
+		return true;
+	else return false;
 }
 
