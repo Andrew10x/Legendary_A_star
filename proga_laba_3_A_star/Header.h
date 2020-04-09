@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 using namespace std;
 
 void read_field_from_file(const char*, int***, int*, int*);
@@ -22,6 +23,7 @@ class Astar
 public:
 	Astar(int, int);
 	void setArr(int**);
+	void setH(int, int);
 	void setStart(int x, int y)
 	{
 		start.first = x; start.second = y;
@@ -37,4 +39,14 @@ public:
 	bool isPath(int, int);
 	bool isFinish(int, int);
 
+};
+
+class priorityQueue
+{
+	vector<cell> queue;
+public:
+	void add_cell(cell);
+	void output();
+	cell get_first();
+	bool is_empty();
 };

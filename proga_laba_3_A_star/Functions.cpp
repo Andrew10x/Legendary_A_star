@@ -112,3 +112,41 @@ bool Astar::isFinish(int row, int col)
 	else return false;
 }
 
+void Astar::setH(int row, int col)
+{
+	maze_details[row][col].h = abs(finish.first - row)*10+abs(finish.second-col)*10;
+}
+
+
+void priorityQueue::add_cell(cell a)
+{   
+	queue.push_back(a);
+	for (int i = 0; i < queue.size()-1; i++)
+		for(int j = i+1; j< queue.size(); j++)
+	{
+			if (queue[i].f > queue[j].f)
+				swap(queue[i], queue[j]);
+	}
+}
+
+void priorityQueue::output()
+{
+	for (int i = 0; i < queue.size(); i++)
+	{
+		cout << queue[i].f << " ";
+	}
+}
+
+cell priorityQueue::get_first()
+{
+	cell temp = queue[0];
+	for (int i = 0; i < queue.size() - 1; i++)
+		queue[i] = queue[i + 1];
+	queue.pop_back();
+	return temp;
+}
+
+bool priorityQueue::is_empty()
+{
+	return (queue.empty());
+}
