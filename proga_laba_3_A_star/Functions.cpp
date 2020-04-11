@@ -167,12 +167,6 @@ pair<int, int> stack:: get()
 	return t;
 }
 
-bool Astar::conditions(int i, int j)
-{
-	if (inMaze(i, j) && isPath(i, j)) return true;
-	else return false;
-}
-
 void Astar::search()
 {
 	if (!(inMaze(start.first, start.second) && inMaze(finish.first, finish.second)))

@@ -19,33 +19,28 @@ class Astar
 	int Rows;  // колличество строк
 	int Cols;  // колличество колонок
 	int** arr; // лабиринт типа инт
-	cell** maze_details;
+	cell** maze_details; //cell лабиринт
 	pair<int, int> start;
 	pair<int, int> finish;
+
 public:
-	Astar(int, int);
+	Astar(int, int); // устанавливаем значения
 	void setMaze(int**);
-	int findH(int, int);
 	void setStart(int x, int y)
-	{
-		start.first = x; start.second = y;
-	}
-
+	{ start.first = x; start.second = y;}
 	void setFinish(int x, int y)
-	{
-		finish.first = x; finish.second = y;
-	}
+	{ finish.first = x; finish.second = y;}
 
-	void outputMaze();
-	bool inMaze(int, int);
-	bool isPath(int, int);
+	bool inMaze(int, int);  //условия для точки
+	bool isPath(int, int); 
 	bool isFinish(int, int);
-	bool conditions(int, int);
+
+	int findH(int, int); // поиск и вывод
+	void outputMaze();
 	void search();
 	int search_side(int, int, int, int);
 	void outputPath(int, int);
 	void outputInFile(string);
-
 };
 
 class priorityQueue
