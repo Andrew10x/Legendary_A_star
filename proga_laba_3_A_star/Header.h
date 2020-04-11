@@ -7,8 +7,10 @@ using namespace std;
 
 void read_field_from_file(const char*, int***, int*, int*);
 struct cell
-{
+{  
 	int f, g, h;
+	bool closed;
+	pair<int, int> ij;
 	cell* parent;
 	cell();
 };
@@ -22,8 +24,8 @@ class Astar
 	pair<int, int> finish;
 public:
 	Astar(int, int);
-	void setArr(int**);
-	void setH(int, int);
+	void setMaze(int**);
+	int findH(int, int);
 	void setStart(int x, int y)
 	{
 		start.first = x; start.second = y;
@@ -38,6 +40,9 @@ public:
 	bool inMaze(int, int);
 	bool isPath(int, int);
 	bool isFinish(int, int);
+	bool conditions(int, int);
+	void search();
+	int search_side(int, int, int, int);
 
 };
 
