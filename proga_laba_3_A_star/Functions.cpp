@@ -45,7 +45,6 @@ void read_field_from_file(const char* file_name, int*** arr, int* arrRows, int* 
 		}
 	}
 	file.close();
-
 }
 
 cell::cell()
@@ -89,8 +88,13 @@ void Astar:: outputMaze()
 	{
 		for (int j = 0; j < Cols; j++)
 		{
-			if (arr[i][j]) cout << ' ';
-			else cout << 'X'; cout << ' ';
+			if (arr[i][j] == 1) cout << ' ';
+			else if (arr[i][j] > 1 && arr[i][j] <= 10)
+				cout << arr[i][j] - 1;
+			else if (arr[i][j] > 10)
+				cout << char('a' + arr[i][j] - 11);
+			else cout << 'X';
+			cout << ' ';
 		} cout << endl;
 	} cout << endl;
 }
@@ -154,7 +158,13 @@ cell priorityQueue::get_first()
 
 bool priorityQueue::is_empty()
 {
-	return (queue.empty());
+	return queue.empty();
+}
+pair<int, int> stack:: get() 
+{ 
+	pair<int, int> t = stack[stack.size()-1];
+	stack.pop_back();
+	return t;
 }
 
 bool Astar::conditions(int i, int j)
@@ -165,13 +175,13 @@ bool Astar::conditions(int i, int j)
 
 void Astar::search()
 {
-	if (!(inMaze(start.first, start.second) || inMaze(finish.first, finish.second)))
+	if (!(inMaze(start.first, start.second) && inMaze(finish.first, finish.second)))
 	{
-		cout << "Start or finish isn't in the maze!" << endl;
+		cout << "Start or finish is not in the maze!" << endl;
 		return;
 	}
 
-	if (!(isPath(start.first, start.second) || isPath(finish.first, finish.second)))
+	if (!(isPath(start.first, start.second) && isPath(finish.first, finish.second)))
 	{
 		cout << "Start or finish is blocked!" << endl;
 		return;
@@ -180,6 +190,8 @@ void Astar::search()
 	if (isFinish(start.first, start.second))
 	{
 		cout << "We have riched our destination!" << endl;
+		outputPath(start.first, start.second);
+		outputInFile("outfile.txt");
 		return;
 	}
 
@@ -205,28 +217,48 @@ void Astar::search()
 	    i1 = i - 1;
 		j1 = j;
 		k = search_side(i, j, i1, j1);
-		if (k == 1) return;
+		if (k == 1) 
+		{
+			outputPath(i1, j1);
+			outputInFile("outfile.txt");
+			return;
+		}
 		if(k == 2) q.add_cell(maze_details[i1][j1]);
 
 		//South
 		i1 = i + 1;
 		j1 = j;
 		k = search_side(i, j, i1, j1);
-		if (k == 1) return;
+		if (k == 1)
+		{
+			outputPath(i1, j1);
+			outputInFile("outfile.txt");
+			return;
+		}
 		if (k == 2) q.add_cell(maze_details[i1][j1]);
 
 		//West
 		i1 = i;
 		j1 = j-1;
 		k = search_side(i, j, i1, j1);
-		if (k == 1) return;
+		if (k == 1)
+		{
+			outputPath(i1, j1); 
+			outputInFile("outfile.txt");
+			return; 
+		}
 		if (k == 2) q.add_cell(maze_details[i1][j1]);
 
 		//East
 		i1 = i;
 		j1 = j+1;
 		k = search_side(i, j, i1, j1);
-		if (k == 1) return;
+		if (k == 1)
+		{
+			outputPath(i1, j1);
+			outputInFile("outfile.txt");
+			return;
+		}
 		if (k == 2) q.add_cell(maze_details[i1][j1]);
 	}
 
@@ -238,8 +270,9 @@ int Astar::search_side(int i, int j, int i1, int j1)
 {   
 	int g1, h1, f1;
 	if (isFinish(i1, j1))
-	{
-		cout << "We have riched our destination!";
+	{   
+		cout << "We have riched our destination!\n" << endl;
+		maze_details[i1][j1].parent = &maze_details[i][j];
 		return 1;
 	}
 	if (inMaze(i1, j1) && isPath(i1, j1) && !maze_details[i1][j1].closed)
@@ -257,4 +290,44 @@ int Astar::search_side(int i, int j, int i1, int j1)
 		}
 	} 
 	return 0;
+}
+
+void Astar::outputPath(int i1, int j1)
+{
+	stack s;
+	cell* temp = &maze_details[i1][j1];
+
+	while (temp != NULL)
+	{
+		s.add((*temp).ij);
+		temp = temp->parent;
+	}
+
+	int i = 2;
+	while (!s.is_empty())
+	{
+		pair<int, int> t = s.get();
+		arr[t.first][t.second] = i;
+		i++;
+	}
+	outputMaze();
+}
+
+void Astar::outputInFile(string f)
+{
+	ofstream file(f);
+	for (int i = 0; i < Rows; i++)
+	{
+		for (int j = 0; j < Cols; j++)
+		{
+			if (arr[i][j] == 1) file << ' ';
+			else if (arr[i][j] > 1 && arr[i][j] <= 10)
+				file << arr[i][j] - 1;
+			else if (arr[i][j] > 10)
+				file << char('a' + arr[i][j] - 11);
+			else file << 'X';
+			file << ' ';
+		} file << endl;
+	} file << endl;
+	file.close();
 }

@@ -43,6 +43,8 @@ public:
 	bool conditions(int, int);
 	void search();
 	int search_side(int, int, int, int);
+	void outputPath(int, int);
+	void outputInFile(string);
 
 };
 
@@ -54,4 +56,13 @@ public:
 	void output();
 	cell get_first();
 	bool is_empty();
+};
+
+class stack
+{
+	vector<pair<int, int>> stack;
+public:
+	void add(pair<int, int> p) { stack.push_back(p); }
+	pair<int, int> get();
+	bool is_empty() { return stack.empty(); }
 };
